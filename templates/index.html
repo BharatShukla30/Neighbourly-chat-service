@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chat Application</title>
+  <style>
+    /* CSS styles for chat application */
+    /* ... */
+  </style>
+</head>
+<body>
+  <div id="messages"></div>
+  <form id="chatForm">
+    <input type="text" id="messageInput" placeholder="Type your message..." />
+    <button type="submit">Send</button>
+  </form>
+
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  <script>
+    // JavaScript code for chat application
+    const socket = io.connect('http://127.0.0.1:5000');
+
+    // Handle form submit event
+    document.getElementById('chatForm').addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = document.getElementById('messageInput').value;
+      socket.emit('message', message);
+      document.getElementById('messageInput').value = '';
+    });
+
+    // Handle received message event
+    socket.on('message', (message) => {
+      const messageElement = document.createElement('div');
+      messageElement.textContent = message;
+      document.getElementById('messages').appendChild(messageElement);
+    });
+  </script>
+</body>
+</html>
